@@ -2,10 +2,13 @@
 " Maintainer:  Venantius <http://venanti.us>
 " Version:     0.1
 
-function RequireCljfmt()
+let g:clj_fmt_required = 0
+
+function s:RequireCljfmt()
     let cmd = "(require 'cljfmt.core)"
     try
         call fireplace#session_eval(cmd)
+        let g:clj_fmt_required = 1
         return 1
     catch /^Clojure:.*/
         return 0
@@ -17,19 +20,32 @@ function s:GetReformatString()
     return '(print (cljfmt.core/reformat-string (slurp "' . filename . '") nil))'
 endfunction
 
+function s:FilterOutput(lines)
+    let output = []
+    for line in a:lines
+        if line != "No matching autocommands"
+            call add(output, line)
+        endif
+    endfor
+    return output
+endfunction
+
 function s:GetFormattedFile()
     try
         redir => cljfmt_output
         silent! call fireplace#session_eval(s:GetReformatString())
-        " call fireplace#session_eval("(print 5)")
         redir END
-        return split(cljfmt_output, "\n")[1:]
+        return s:FilterOutput(split(cljfmt_output, "\n"))
     catch /^Clojure:.*/
         return ''
     endtry
 endfunction
 
 function! cljfmt#Format()
+    if !g:clj_fmt_required
+        call s:RequireCljfmt()
+    endif
+
     " save cursor position and many other things
     let l:curw=winsaveview()
 
@@ -45,7 +61,7 @@ augroup vim-cljfmt
 
     " code formatting on save
     if get(g:, "clj_fmt_autosave", 1)
-        autocmd BufWritePre *.clj call cljfmt#Format()
+        autocmd BufWritePost *.clj call cljfmt#Format()
     endif
 
 augroup END

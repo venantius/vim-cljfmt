@@ -1,6 +1,6 @@
 # vim-cljfmt
 
-vim-cljfmt is a vim plugin for [cljfmt](https://github.com/weavejester/cljfmt), the code formatting tool. Rather than invoking the plugin by shelling out to Leiningen, it uses a [vim-fireplace](https://github.com/tpope/vim-fireplace/) REPL connection to only format the current file. This has the advantage of sidestepping Leiningen's startup time and keeping Vim from hanging, though the very first time you use it with a given REPL server there will be a slight delay as it loads the cljfmt namespace.
+vim-cljfmt is a vim plugin for [cljfmt](https://github.com/weavejester/cljfmt), the code formatting tool for Clojure. Rather than invoking the plugin by shelling out to Leiningen, it uses a [vim-fireplace](https://github.com/tpope/vim-fireplace/) REPL connection to only format the current file. This has the advantage of sidestepping Leiningen's startup time and keeping Vim from hanging, though the first time you use it with a given REPL server there will be a slight delay as it loads the cljfmt namespace.
 
 ## Configuration and Usage
 
@@ -10,7 +10,7 @@ vim-cljfmt allows you to format the file in the current buffer with the followin
 call cljfmt#Format()
 ```
 
-Of course, manually formatting files is stupid. So, by default, vim-cljfmt automatically does the formatting when you save. If you want to turn this off, add the following to your `.vimrc`
+Of course, manually formatting files is stupid. So, by default, vim-cljfmt automatically does the formatting when you save. If you want to turn this off, add the following line to your `.vimrc`:
 
 ```vim
 g:clj_fmt_autosave = 0

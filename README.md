@@ -13,7 +13,7 @@ vim-cljfmt allows you to format the file in the current buffer with the followin
 Of course, manually formatting files is stupid. So, by default, vim-cljfmt automatically does the formatting when you save. If you want to turn this off, add the following line to your `.vimrc`:
 
 ```vim
-g:clj_fmt_autosave = 0
+let g:clj_fmt_autosave = 0
 ```
 
 ## Installation

@@ -7,7 +7,7 @@ vim-cljfmt is a vim plugin for [cljfmt](https://github.com/weavejester/cljfmt), 
 vim-cljfmt allows you to format the file in the current buffer with the following:
 
 ```vim
-call cljfmt#Format()
+:Cljfmt
 ```
 
 Of course, manually formatting files is stupid. So, by default, vim-cljfmt automatically does the formatting when you save. If you want to turn this off, add the following line to your `.vimrc`:

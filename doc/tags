@@ -1,0 +1,10 @@
+:Cljfmt	cljfmt.txt	/*:Cljfmt*
+cljfmt	cljfmt.txt	/*cljfmt*
+cljfmt-commands	cljfmt.txt	/*cljfmt-commands*
+cljfmt-configuration	cljfmt.txt	/*cljfmt-configuration*
+cljfmt-contents	cljfmt.txt	/*cljfmt-contents*
+cljfmt-contributions	cljfmt.txt	/*cljfmt-contributions*
+cljfmt-features	cljfmt.txt	/*cljfmt-features*
+cljfmt-intro	cljfmt.txt	/*cljfmt-intro*
+cljfmt-license	cljfmt.txt	/*cljfmt-license*
+cljfmt.txt	cljfmt.txt	/*cljfmt.txt*

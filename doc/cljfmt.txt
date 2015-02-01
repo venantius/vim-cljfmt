@@ -1,0 +1,64 @@
+*cljfmt.txt*  Vim plugin for cljfmt, the Clojure formatting tool
+*cljfmt*
+                    _                     _ _  __           _                ~
+                   (_)                   | (_)/ _|         | |               ~
+             __   ___ _ __ ___        ___| |_| |_ _ __ ___ | |_              ~
+             \ \ / | | '_ ` _ |______/ __| | |  _| '_ ` _ \| __|             ~
+              \ V /| | | | | | |____| (__| | | | | | | | | | |_              ~
+               \_/ |_|_| |_| |_|     \___|_| |_| |_| |_| |_|\__|             ~
+                                          _/ |                               ~
+                                         |__/                                ~
+==============================================================================
+CONTENTS                                                   *cljfmt-contents*
+
+   01. Introduction ......................................... |cljfmt-intro|
+   02. Features .......................................... |cljfmt-features|
+   03. Configuration ................................ |cljfmt-configuration|
+   04. Commands .......................................... |cljfmt-commands|
+   05. Contributions ................................ |cljfmt-contributions|
+   06. License ............................................ |cljfmt-license|
+
+==============================================================================
+INTRODUCTION                                                  *cljfmt-intro*
+
+vim-cljfmt is a vim plugin for cljfmt, the code formatting tool for 
+Clojure. 
+
+Rather than invoking the plugin by shelling out to Leiningen, it uses a 
+vim-fireplace REPL connection to only format the current file. This has 
+the advantage of sidestepping Leiningen's startup time and keeping Vim 
+from hanging, though the first time you use it with a given REPL server 
+there will be a slight delay as it loads the cljfmt namespace.
+
+==============================================================================
+FEATURES                                                   *cljfmt-features*
+
+*  Formatting function that can be called over a fireplace connection to
+   format the file in the currenly open buffer.
+*  That's it!
+
+==============================================================================
+CONFIGURATION                                         *cljfmt-configuration*
+
+* By default, vim-cljfmt automatically formats the Clojure file in the 
+current buffer when you save. If you want to turn this off, add the 
+following to your .vimrc:
+  let g:clj_fmt_autosave = 0
+
+==============================================================================
+COMMANDS                                                   *cljfmt-commands*
+
+:Cljfmt                                                            *:Cljfmt*
+  Format the current file.
+
+==============================================================================
+CONTRIBUTIONS                                         *cljfmt-contributions*
+
+Contributions and pull requests are welcome.
+
+==============================================================================
+LICENSE                                                     *cljfmt-license*
+
+EPL License.  Copyright © 2015 W. David Jarvis
+
+ vim:tw=78:ts=8:ft=help:norl:

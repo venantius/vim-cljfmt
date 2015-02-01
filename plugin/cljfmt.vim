@@ -65,3 +65,5 @@ augroup vim-cljfmt
     endif
 
 augroup END
+
+command! Cljfmt call cljfmt#Format()

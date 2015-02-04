@@ -2,6 +2,10 @@
 
 vim-cljfmt is a vim plugin for [cljfmt](https://github.com/weavejester/cljfmt), the code formatting tool for Clojure. Rather than invoking the plugin by shelling out to Leiningen, it uses a [vim-fireplace](https://github.com/tpope/vim-fireplace/) REPL connection to only format the current file. This has the advantage of sidestepping Leiningen's startup time and keeping Vim from hanging, though the first time you use it with a given REPL server there will be a slight delay as it loads the cljfmt namespace.
 
+Demo below:
+
+![](doc/demo.gif)
+
 ## Configuration and Usage
 
 vim-cljfmt allows you to format the file in the current buffer with the following:

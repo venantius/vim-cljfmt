@@ -71,7 +71,7 @@ augroup vim-cljfmt
 
     " code formatting on save
     if get(g:, "clj_fmt_autosave", 1)
-        autocmd BufWritePost *.clj call cljfmt#Format()
+        autocmd BufWritePre *.clj call cljfmt#Format()
     endif
 
 augroup END

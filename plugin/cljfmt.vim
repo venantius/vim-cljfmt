@@ -1,13 +1,13 @@
 " cljfmt.vim - A tool for formatting Clojure code
 " Maintainer:  Venantius <http://venanti.us>
-" Version:     0.1
+" Version:     0.2
 
 let g:clj_fmt_required = 0
 
 function s:RequireCljfmt()
-    let cmd = "(require 'cljfmt.core)"
+    let l:cmd = "(require 'cljfmt.core)"
     try
-        call fireplace#session_eval(cmd)
+        call fireplace#session_eval(l:cmd)
         let g:clj_fmt_required = 1
         return 1
     catch /^Clojure:.*/
@@ -15,45 +15,55 @@ function s:RequireCljfmt()
     endtry
 endfunction
 
+function s:CurrentBufferContents()
+    let l:current_buffer_contents = join(getline(1,'$'), '\n')
+    let l:escaped_buffer_contents = substitute(l:current_buffer_contents, '"', '\\"', 'g')
+    return escaped_buffer_contents
+endfunction
+
 function s:GetReformatString()
-    let filename = expand('%:p')
-    return '(print (cljfmt.core/reformat-string (slurp "' . filename . '") nil))'
+    let l:bufcontents = s:CurrentBufferContents()
+    return '(print (cljfmt.core/reformat-string "' . l:bufcontents . '" nil))'
 endfunction
 
 function s:FilterOutput(lines)
-    let output = []
+    let l:output = []
     for line in a:lines
         if line != "No matching autocommands"
-            call add(output, line)
+            call add(l:output, line)
         endif
     endfor
-    return output
+    return l:output
 endfunction
 
 function s:GetFormattedFile()
     try
-        redir => cljfmt_output
+        redir => l:cljfmt_output
         silent! call fireplace#session_eval(s:GetReformatString())
         redir END
-        return s:FilterOutput(split(cljfmt_output, "\n"))
+        return s:FilterOutput(split(l:cljfmt_output, "\n"))
     catch /^Clojure:.*/
         return ''
     endtry
 endfunction
 
 function! cljfmt#Format()
-    if !g:clj_fmt_required
-        call s:RequireCljfmt()
-    endif
+    try
+        if !g:clj_fmt_required
+            call s:RequireCljfmt()
+        endif
 
-    " save cursor position and many other things
-    let l:curw=winsaveview()
+        " save cursor position and many other things
+        let l:curw = winsaveview()
 
-    let formatted_output = s:GetFormattedFile()
-    :0,substitute/\_.*/\=formatted_output/g
+        let formatted_output = s:GetFormattedFile()
+        :0,substitute/\_.*/\=formatted_output/g
 
-    " restore our cursor/windows positions
-    call winrestview(l:curw)
+        " restore our cursor/windows positions
+        call winrestview(l:curw)
+    catch
+        return ''
+    endtry
 endfunction
 
 augroup vim-cljfmt

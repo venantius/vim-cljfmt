@@ -40,6 +40,10 @@ To install vim-eastwood with [Vundle](https://github.com/gmarik/Vundle.vim), add
 Bundle 'venantius/vim-cljfmt'
 ```
 
+## Other Vim + Clojure Plugins
+
+If you like this, you should check out [vim-eastwood](https://github.com/venantius/vim-eastwood)!
+
 ## License
 
 Copyright (c) 2015 W. David Jarvis.

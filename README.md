@@ -39,7 +39,7 @@ git clone https://github.com/venantius/vim-cljfmt.git
 
 ### Installing with Vundle
 
-To install vim-eastwood with [Vundle](https://github.com/gmarik/Vundle.vim), add the following line to your `.vimrc`:
+To install vim-cljfmt with [Vundle](https://github.com/gmarik/Vundle.vim), add the following line to your `.vimrc`:
 ```
 Bundle 'venantius/vim-cljfmt'
 ```

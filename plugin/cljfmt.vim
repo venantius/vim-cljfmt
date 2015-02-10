@@ -37,14 +37,15 @@ function s:FilterOutput(lines)
 endfunction
 
 function s:GetFormattedFile()
+    redir => l:cljfmt_output
     try
-        redir => l:cljfmt_output
         silent! call fireplace#session_eval(s:GetReformatString())
-        redir END
-        return s:FilterOutput(split(l:cljfmt_output, "\n"))
     catch /^Clojure:.*/
+        redir END
         return ''
     endtry
+    redir END
+    return s:FilterOutput(split(l:cljfmt_output, "\n"))
 endfunction
 
 function! cljfmt#Format()

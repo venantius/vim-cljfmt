@@ -24,7 +24,13 @@ let g:clj_fmt_autosave = 0
 
 ### Requirements
 
-You'll want to have [cljfmt](https://github.com/weavejester/cljfmt) and [vim-fireplace](https://github.com/tpope/vim-fireplace/) installed, and you'll need to make sure cljfmt is somewhere on the Leiningen classpath. You'll also need to have a REPL connection open through fireplace.
+You'll want to have [cljfmt](https://github.com/weavejester/cljfmt) and [vim-fireplace](https://github.com/tpope/vim-fireplace/) installed, and you'll need to make sure Cljfmt is somewhere on your project's classpath. I'd recommend adding the following to your `~/.lein/profiles.clj`:
+
+```clojure
+:dependencies [[cljfmt "0.1.7"]]
+```
+
+You'll also need to have a REPL connection open through fireplace.
 
 After that, the rest should take care of itself.
 

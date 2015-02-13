@@ -16,8 +16,16 @@ function s:RequireCljfmt()
 endfunction
 
 function s:CurrentBufferContents()
-    let l:current_buffer_contents = join(getline(1,'$'), '\n')
-    let l:escaped_buffer_contents = substitute(l:current_buffer_contents, '"', '\\"', 'g')
+    " Escape newlines
+    let l:temp = []
+    for l:line in getline(1, '$')
+        let l:line = substitute(l:line, '\\n', '\\\\n', 'g')
+        call add(l:temp, l:line)
+    endfor
+    let l:escaped_buffer_contents = join(l:temp, '\n')
+
+    " Take care of escaping quotes
+    let l:escaped_buffer_contents = substitute(l:escaped_buffer_contents, '"', '\\"', 'g')
     return escaped_buffer_contents
 endfunction
 

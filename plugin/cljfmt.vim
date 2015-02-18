@@ -41,7 +41,7 @@ function s:FilterOutput(lines)
             call add(l:output, line)
         endif
     endfor
-    return l:output
+    return join(l:output, "\n")
 endfunction
 
 function s:GetFormattedFile()

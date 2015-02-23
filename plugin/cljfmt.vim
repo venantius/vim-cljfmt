@@ -15,7 +15,7 @@ function s:RequireCljfmt()
     endtry
 endfunction
 
-function s:CurrentBufferContents()
+function s:GetCurrentBufferContents()
     " Escape newlines
     let l:temp = []
     for l:line in getline(1, '$')
@@ -29,9 +29,8 @@ function s:CurrentBufferContents()
     return escaped_buffer_contents
 endfunction
 
-function s:GetReformatString()
-    let l:bufcontents = s:CurrentBufferContents()
-    return '(print (cljfmt.core/reformat-string "' . l:bufcontents . '" nil))'
+function s:GetReformatString(CurrentBufferContents)
+    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" nil))'
 endfunction
 
 function s:FilterOutput(lines)
@@ -45,12 +44,13 @@ function s:FilterOutput(lines)
 endfunction
 
 function s:GetFormattedFile()
+    let l:bufcontents = s:GetCurrentBufferContents()
     redir => l:cljfmt_output
     try
-        silent! call fireplace#session_eval(s:GetReformatString())
+        silent! call fireplace#session_eval(s:GetReformatString(l:bufcontents))
     catch /^Clojure:.*/
         redir END
-        return ''
+        return s:GetReformatString()
     endtry
     redir END
     return s:FilterOutput(split(l:cljfmt_output, "\n"))

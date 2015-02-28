@@ -4,7 +4,7 @@
 
 let g:clj_fmt_required = 0
 
-function s:RequireCljfmt()
+function! s:RequireCljfmt()
     let l:cmd = "(require 'cljfmt.core)"
     try
         call fireplace#session_eval(l:cmd)
@@ -15,7 +15,7 @@ function s:RequireCljfmt()
     endtry
 endfunction
 
-function s:GetCurrentBufferContents()
+function! s:GetCurrentBufferContents()
     " Escape newlines
     let l:temp = []
     for l:line in getline(1, '$')
@@ -29,11 +29,11 @@ function s:GetCurrentBufferContents()
     return escaped_buffer_contents
 endfunction
 
-function s:GetReformatString(CurrentBufferContents)
+function! s:GetReformatString(CurrentBufferContents)
     return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" nil))'
 endfunction
 
-function s:FilterOutput(lines)
+function! s:FilterOutput(lines)
     let l:output = []
     for line in a:lines
         if line != "No matching autocommands"
@@ -43,7 +43,7 @@ function s:FilterOutput(lines)
     return join(l:output, "\n")
 endfunction
 
-function s:GetFormattedFile()
+function! s:GetFormattedFile()
     let l:bufcontents = s:GetCurrentBufferContents()
     redir => l:cljfmt_output
     try

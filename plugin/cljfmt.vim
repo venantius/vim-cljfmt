@@ -19,7 +19,7 @@ function! s:GetCurrentBufferContents()
     " Escape newlines
     let l:temp = []
     for l:line in getline(1, '$')
-        let l:line = substitute(l:line, '\\n', '\\\\n', 'g')
+        let l:line = substitute(l:line, '\', '\\\\', 'g')
         call add(l:temp, l:line)
     endfor
     let l:escaped_buffer_contents = join(l:temp, '\n')

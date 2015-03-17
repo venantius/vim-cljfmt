@@ -1,6 +1,6 @@
 " cljfmt.vim - A tool for formatting Clojure code
 " Maintainer:  Venantius <http://venanti.us>
-" Version:     0.3
+" Version:     0.4
 
 let g:clj_fmt_required = 0
 

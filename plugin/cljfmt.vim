@@ -86,3 +86,4 @@ augroup vim-cljfmt
 augroup END
 
 command! Cljfmt call cljfmt#Format()
+command! CljfmtRequire call s:RequireCljfmt()

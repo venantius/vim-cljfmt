@@ -52,7 +52,7 @@ COMMANDS                                                   *cljfmt-commands*
   Format the current file.
 
 :CljfmtRequire
-  Reload vim-cljfmt (needed if fireplace REPL connection is reset)
+  Reload vim-cljfmt (this may be needed if REPL connection is reset).
 
 ==============================================================================
 CONTRIBUTIONS                                         *cljfmt-contributions*

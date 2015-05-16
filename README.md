@@ -19,6 +19,11 @@ Of course, manually formatting files is for people who aren't lazy. So, by defau
 ```vim
 let g:clj_fmt_autosave = 0
 ```
+Occasionally vim-cljfmt might need to be reloaded (for example, if the fireplace REPL connection is reset). Reload vim-cljfmt with the following:
+
+```vim
+:CljfmtRequire
+```
 
 ## Installation
 

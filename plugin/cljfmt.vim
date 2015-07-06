@@ -75,12 +75,18 @@ function! cljfmt#Format()
     endtry
 endfunction
 
+function! cljfmt#AutoFormat()
+    if expand('%:t') != "project.clj"
+        call cljfmt#Format()
+    endif
+endfunction
+
 augroup vim-cljfmt
     autocmd!
 
     " code formatting on save
     if get(g:, "clj_fmt_autosave", 1)
-        autocmd BufWritePre *.clj call cljfmt#Format()
+        autocmd BufWritePre *.clj call cljfmt#AutoFormat()
     endif
 
 augroup END

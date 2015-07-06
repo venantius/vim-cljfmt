@@ -12,6 +12,9 @@ function! s:RequireCljfmt()
         return 1
     catch /^Clojure:.*/
         return 0
+    catch /.*/
+        echom v:exception
+        return 0
     endtry
 endfunction
 

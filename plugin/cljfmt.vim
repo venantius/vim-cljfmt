@@ -7,15 +7,17 @@ let g:clj_fmt_required = 0
 function! s:RequireCljfmt()
     let l:cmd = "(require 'cljfmt.core)"
     try
-        call fireplace#session_eval(l:cmd)
+        silent! call fireplace#session_eval(l:cmd)
         let g:clj_fmt_required = 1
         return 1
-    catch /^Clojure:.*/
+    catch /^Clojure:*/
+        echom v:exception
         return 0
     catch /^Fireplace:.*/
         echom v:exception
         return 0
     endtry
+    echom "got to here?"
 endfunction
 
 function! s:GetCurrentBufferContents()

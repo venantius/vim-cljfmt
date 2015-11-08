@@ -20,7 +20,9 @@ Of course, manually formatting files is for people who aren't lazy. So, by defau
 let g:clj_fmt_autosave = 0
 ```
 
-If you expect the have to re-start the REPL while working, you have two options. You can manually re-load vim-cljfmt from within Vim by calling:
+##### Re-starting the REPL while editing
+
+If you expect the have to re-start the REPL while working, you have two options. You can manually re-load vim-cljfmt from within Vim with the following:
 
 ```vim
 :CljfmtRequire
@@ -32,7 +34,7 @@ Alternatively, you can add the following line to your `~/.lein/profiles.clj`:
 :repl-options {:init (require 'cljfmt.core)}
 ```
 
-Personally, I prefer the latter.
+The latter will slow down your REPL startup time, but will mean you won't have to do any extra typing if you restart your REPL. Personally, I prefer this approach.
 
 ## Installation
 

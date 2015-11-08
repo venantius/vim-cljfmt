@@ -19,11 +19,20 @@ Of course, manually formatting files is for people who aren't lazy. So, by defau
 ```vim
 let g:clj_fmt_autosave = 0
 ```
-Occasionally vim-cljfmt might need to be reloaded (for example, if the fireplace REPL connection is reset). Reload vim-cljfmt with the following:
+
+If you expect the have to re-start the REPL while working, you have two options. You can manually re-load vim-cljfmt from within Vim by calling:
 
 ```vim
 :CljfmtRequire
 ```
+
+Alternatively, you can add the following line to your `~/.lein/profiles.clj`:
+
+```clojure
+:repl-options {:init (require 'cljfmt.core)}
+```
+
+Personally, I prefer the latter.
 
 ## Installation
 
@@ -33,10 +42,7 @@ You'll want to have [cljfmt](https://github.com/weavejester/cljfmt) and [vim-fir
 
 ```clojure
 :dependencies [[cljfmt "0.3.0"]]
-:repl-options {:init (require 'cljfmt.core)}
 ```
-
-Adding the `:repl-options :init` key is optional, but I find it slightly more pleasant.
 
 You'll also need to have a REPL connection open through fireplace.
 

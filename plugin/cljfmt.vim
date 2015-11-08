@@ -8,16 +8,14 @@ function! s:RequireCljfmt()
     let l:cmd = "(require 'cljfmt.core)"
     try
         silent! call fireplace#session_eval(l:cmd)
-        let g:clj_fmt_required = 1
         return 1
-    catch /^Clojure:*/
-        echom v:exception
+    catch /^Clojure: class java.io.FileNotFoundException*/
+        echom "vim-cljfmt: Could not locate cljfmt/core__init.class or cljfmt/core.clj on classpath."
         return 0
     catch /^Fireplace:.*/
         echom v:exception
         return 0
     endtry
-    echom "got to here?"
 endfunction
 
 function! s:GetCurrentBufferContents()
@@ -65,11 +63,13 @@ function! s:GetFormattedFile()
 endfunction
 
 function! cljfmt#Format()
-    try
-        if !g:clj_fmt_required
-            call s:RequireCljfmt()
-        endif
+    if !g:clj_fmt_required
+        let g:clj_fmt_required = s:RequireCljfmt()
+    endif
 
+    " If cljfmt.core has already been required, or was successfully imported
+    " above
+    if g:clj_fmt_required
         " save cursor position and many other things
         let l:curw = winsaveview()
 
@@ -78,9 +78,7 @@ function! cljfmt#Format()
 
         " restore our cursor/windows positions
         call winrestview(l:curw)
-    catch
-        return ''
-    endtry
+    end
 endfunction
 
 function! cljfmt#AutoFormat()
@@ -96,7 +94,6 @@ augroup vim-cljfmt
     if get(g:, "clj_fmt_autosave", 1)
         autocmd BufWritePre *.clj call cljfmt#AutoFormat()
     endif
-
 augroup END
 
 command! Cljfmt call cljfmt#Format()

@@ -90,11 +90,11 @@ function! cljfmt#Format()
 
         " restore our cursor/windows positions
         call winrestview(l:curw)
-    end
+    endif
 endfunction
 
 function! cljfmt#AutoFormat()
-    if expand('%:t') != "project.clj"
+    if expand('%:t') != "project.clj" && expand('%:t') != "profiles.clj"
         call cljfmt#Format()
     endif
     silent! write

@@ -56,6 +56,9 @@ function! s:GetFormattedFile()
     catch /^Clojure:.*/
         redir END
         return s:GetReformatString()
+    catch
+      redir END
+      throw v:exception
     endtry
     redir END
     return s:FilterOutput(split(l:cljfmt_output, "\n"))

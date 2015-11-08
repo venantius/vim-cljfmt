@@ -33,7 +33,10 @@ You'll want to have [cljfmt](https://github.com/weavejester/cljfmt) and [vim-fir
 
 ```clojure
 :dependencies [[cljfmt "0.3.0"]]
+:repl-options {:init (require 'cljfmt.core)}
 ```
+
+Adding the `:repl-options :init` key is optional, but I find it slightly more pleasant.
 
 You'll also need to have a REPL connection open through fireplace.
 

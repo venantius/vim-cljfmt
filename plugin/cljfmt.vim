@@ -62,22 +62,10 @@ function! s:GetFormattedFile()
     return s:FilterOutput(split(l:cljfmt_output, "\n"))
 endfunction
 
-function! s:DeclareCurrentNS()
-    let ns = fireplace#ns()
-    let cmd = "(ns " . ns . ")"
-    call fireplace#session_eval(cmd)
-endfunction
-
 function! cljfmt#Format()
     if !g:clj_fmt_required
         let g:clj_fmt_required = s:RequireCljfmt()
     endif
-
-    try
-        call s:DeclareCurrentNS()
-    catch /.*/
-        return 0
-    endtry
 
     " If cljfmt.core has already been required, or was successfully imported
     " above
@@ -94,10 +82,10 @@ function! cljfmt#Format()
 endfunction
 
 function! cljfmt#AutoFormat()
+    silent! write
     if expand('%:t') != "project.clj" && expand('%:t') != "profiles.clj"
         call cljfmt#Format()
     endif
-    silent! write
 endfunction
 
 augroup vim-cljfmt
@@ -105,7 +93,7 @@ augroup vim-cljfmt
 
     " code formatting on save
     if get(g:, "clj_fmt_autosave", 1)
-        autocmd BufWritePost *.clj call cljfmt#AutoFormat()
+        autocmd BufWritePre *.clj call cljfmt#AutoFormat()
     endif
 augroup END
 

@@ -53,7 +53,7 @@ function! s:GetFormattedFile()
         silent! call fireplace#session_eval(s:GetReformatString(l:bufcontents))
     catch /^Clojure:.*/
         redir END
-        return s:GetReformatString()
+        throw "fmterr"
     catch
       redir END
       throw v:exception
@@ -73,8 +73,12 @@ function! cljfmt#Format()
         " save cursor position and many other things
         let l:curw = winsaveview()
 
-        let formatted_output = s:GetFormattedFile()
-        :0,substitute/\_.*/\=formatted_output/g
+        try
+            let formatted_output = s:GetFormattedFile()
+            :0,substitute/\_.*/\=formatted_output/g
+        catch "fmterr"
+            echoerr "Cljfmt: Failed to format file, likely due to a syntax error."
+        endtry
 
         " restore our cursor/windows positions
         call winrestview(l:curw)

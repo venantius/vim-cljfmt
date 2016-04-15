@@ -1,6 +1,6 @@
 # vim-cljfmt
 
-vim-cljfmt is a vim plugin for [cljfmt](https://github.com/weavejester/cljfmt), the code formatting tool for Clojure. Rather than invoking the plugin by shelling out to Leiningen, it uses a [vim-fireplace](https://github.com/tpope/vim-fireplace/) REPL connection to only format the current file. This has the advantage of sidestepping Leiningen's startup time and keeping Vim from hanging, though the first time you use it with a given REPL server there will be a slight delay as it loads the cljfmt namespace.
+vim-cljfmt is a vim plugin for [cljfmt](https://github.com/weavejester/cljfmt), the code formatting tool for Clojure(Script). Rather than invoking the plugin by shelling out to Leiningen, it uses a [vim-fireplace](https://github.com/tpope/vim-fireplace/) REPL connection to only format the current file. This has the advantage of sidestepping Leiningen's startup time and keeping Vim from hanging, though the first time you use it with a given REPL server there will be a slight delay as it loads the cljfmt namespace.
 
 Demo below:
 
@@ -43,7 +43,7 @@ The latter will slow down your REPL startup time, but will mean you won't have t
 You'll want to have [cljfmt](https://github.com/weavejester/cljfmt) and [vim-fireplace](https://github.com/tpope/vim-fireplace/) installed, and you'll need to make sure Cljfmt is somewhere on your project's classpath. I'd recommend adding the following to your `~/.lein/profiles.clj`:
 
 ```clojure
-:dependencies [[cljfmt "0.3.0"]]
+:dependencies [[cljfmt "0.5.1"]]
 ```
 
 You'll also need to have a REPL connection open through fireplace.

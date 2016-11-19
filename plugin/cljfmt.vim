@@ -63,9 +63,7 @@ function! s:GetFormattedFile()
 endfunction
 
 function! cljfmt#Format()
-    if !g:clj_fmt_required
-        let g:clj_fmt_required = s:RequireCljfmt()
-    endif
+	let g:clj_fmt_required = s:RequireCljfmt()
 
     " If cljfmt.core has already been required, or was successfully imported
     " above

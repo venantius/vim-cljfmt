@@ -39,7 +39,7 @@ endfunction
 function! s:FilterOutput(lines)
     let l:output = []
     for line in a:lines
-        if line != "No matching autocommands"
+        if line != "No matching autocommands" && line != "Keine passenden Autokommandos"
             call add(l:output, line)
         endif
     endfor

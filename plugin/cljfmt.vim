@@ -63,7 +63,7 @@ function! s:GetFormattedFile()
 endfunction
 
 function! cljfmt#Format()
-	let g:clj_fmt_required = s:RequireCljfmt()
+    let g:clj_fmt_required = s:RequireCljfmt()
 
     " If cljfmt.core has already been required, or was successfully imported
     " above
@@ -86,7 +86,7 @@ endfunction
 function! cljfmt#AutoFormat()
     silent! write
     if expand('%:t') != "project.clj" && expand('%:t') != "profiles.clj"
-        call cljfmt#Format()
+        silent! call cljfmt#Format()
     endif
 endfunction
 

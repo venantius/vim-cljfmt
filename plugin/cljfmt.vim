@@ -33,7 +33,7 @@ function! s:GetCurrentBufferContents()
 endfunction
 
 function! s:GetReformatString(CurrentBufferContents)
-    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" nil))'
+    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" (when (find-ns (quote cljfmt.editor)) cljfmt.editor/project-settings)))'
 endfunction
 
 function! s:FilterOutput(lines)

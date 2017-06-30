@@ -40,10 +40,10 @@ The latter will slow down your REPL startup time, but will mean you won't have t
 
 ### Requirements
 
-You'll want to have [cljfmt](https://github.com/weavejester/cljfmt) and [vim-fireplace](https://github.com/tpope/vim-fireplace/) installed, and you'll need to make sure Cljfmt is somewhere on your project's classpath. I'd recommend adding the following to your `~/.lein/profiles.clj`:
+You'll want to have [lein-cljfmt-editor](https://github.com/michaelblume/lein-cljfmt-editor) and [vim-fireplace](https://github.com/tpope/vim-fireplace/) installed, and you'll need to make sure Cljfmt is somewhere on your project's classpath. I'd recommend adding the following to your `~/.lein/profiles.clj`:
 
 ```clojure
-:dependencies [[cljfmt "0.5.1"]]
+:plugins [[lein-cljfmt-editor "0.1.0"]]
 ```
 
 You'll also need to have a REPL connection open through fireplace.

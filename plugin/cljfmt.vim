@@ -3,6 +3,7 @@
 " Version:     0.6
 
 let g:clj_fmt_required = 0
+let fireplace#skip = 'synIDattr(synID(line("."),col("."),1),"name") =~? "comment\\|string\\|char\\|regexp"'
 
 function! s:RequireCljfmt()
     let l:cmd = "(require 'cljfmt.core)"
@@ -36,14 +37,24 @@ function! s:GetReformatString(CurrentBufferContents)
     return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" nil))'
 endfunction
 
-function! s:FilterOutput(lines)
+function! s:FilterOutput(lines, ...)
     let l:output = []
+    let l:join_result = 1
+
+    if a:0 == 1 && !a:1
+        let l:join_result = 0
+    endif
+
     for line in a:lines
         if line != "No matching autocommands" && line != "Keine passenden Autokommandos"
             call add(l:output, line)
         endif
     endfor
-    return join(l:output, "\n")
+    if l:join_result
+        return join(l:output, "\n")
+    else
+        return l:output
+    endif
 endfunction
 
 function! s:GetFormattedFile()
@@ -90,6 +101,52 @@ function! cljfmt#AutoFormat()
     endif
 endfunction
 
+function! s:CljfmtRange(bang, line1, line2, count, args) abort
+  if a:args !=# ''
+    let expr = a:args
+  else
+    if a:count ==# 0
+      let open = '[[{(]'
+      let close = '[]})]'
+      let [line1, col1] = searchpairpos(open, '', close, 'bcrn', g:fireplace#skip)
+      let [line2, col2] = searchpairpos(open, '', close, 'rn', g:fireplace#skip)
+      if !line1 && !line2
+        let [line1, col1] = searchpairpos(open, '', close, 'brn', g:fireplace#skip)
+        let [line2, col2] = searchpairpos(open, '', close, 'crn', g:fireplace#skip)
+      endif
+      while col1 > 1 && getline(line1)[col1-2] =~# '[#''`~@]'
+        let col1 -= 1
+      endwhile
+    else
+      let line1 = a:line1
+      let line2 = a:line2
+      let col1 = 1
+      let col2 = strlen(getline(line2))
+    endif
+    if !line1 || !line2
+      return ''
+    endif
+    let expr = getline(line1)[col1-1 : -1] . "\n"
+            \ . join(map(getline(line1+1, line2-1), 'v:val . "\n"'))
+            \ . getline(line2)[0 : col2-1]
+
+  let g:clj_fmt_required = s:RequireCljfmt()
+  if g:clj_fmt_required
+      let escaped_contents = substitute(expr, '"', '\\"', 'g')
+      let l:preformatted = s:GetReformatString(escaped_contents)
+
+      redir => l:formatted_content
+      silent! call fireplace#session_eval(l:preformatted)
+      redir END
+
+      let content = s:FilterOutput(split(l:formatted_content, "\n"), 0)
+      exe line1.','.line2.'delete _'
+      call append(a:line1 - 1, content)
+      exe a:line1
+  endif
+  return ''
+endfunction
+
 augroup vim-cljfmt
     autocmd!
 
@@ -104,3 +161,4 @@ augroup END
 
 command! Cljfmt call cljfmt#Format()
 command! CljfmtRequire call s:RequireCljfmt()
+command! -buffer -bang -range=0 -nargs=? CljfmtRange :exe s:CljfmtRange(<bang>0, <line1>, <line2>, <count>, <q-args>)

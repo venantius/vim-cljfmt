@@ -20,6 +20,12 @@ Of course, manually formatting files is for people who aren't lazy. So, by defau
 let g:clj_fmt_autosave = 0
 ```
 
+To format the code in current visual selection use the following command:
+
+```vim
+:'<,'>CljfmtRange
+```
+
 ##### Re-starting the REPL while editing
 
 If you expect the have to re-start the REPL while working, you have two options. You can manually re-load vim-cljfmt from within Vim with the following:

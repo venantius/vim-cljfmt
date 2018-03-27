@@ -70,7 +70,7 @@ function! s:GetFormattedFile()
       throw v:exception
     endtry
     redir END
-    return s:FilterOutput(split(l:cljfmt_output, "\n"))
+    return s:FilterOutput(split(l:cljfmt_output, "\n"), 0)
 endfunction
 
 function! cljfmt#Format()
@@ -84,7 +84,8 @@ function! cljfmt#Format()
 
         try
             let formatted_output = s:GetFormattedFile()
-            :0,substitute/\_.*/\=formatted_output/g
+            %del
+            call setline(1, formatted_output)
         catch "fmterr"
             echoerr "Cljfmt: Failed to format file, likely due to a syntax error."
         endtry

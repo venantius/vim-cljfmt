@@ -70,7 +70,16 @@ function! s:GetFormattedFile()
       throw v:exception
     endtry
     redir END
-    return s:FilterOutput(split(l:cljfmt_output, "\n"))
+    return s:FilterOutput(split(l:cljfmt_output, "\n"), 0)
+endfunction
+
+function! s:replaceBuffer(content) abort
+  let content = type(a:content) == v:t_list ? a:content : split(a:content, "\n")
+
+  if getline(1, '$') != content
+    %del
+    call setline(1, content)
+  endif
 endfunction
 
 function! cljfmt#Format()
@@ -83,8 +92,7 @@ function! cljfmt#Format()
         let l:curw = winsaveview()
 
         try
-            let formatted_output = s:GetFormattedFile()
-            :0,substitute/\_.*/\=formatted_output/g
+            call s:replaceBuffer(s:GetFormattedFile())
         catch "fmterr"
             echoerr "Cljfmt: Failed to format file, likely due to a syntax error."
         endtry

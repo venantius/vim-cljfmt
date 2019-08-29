@@ -46,9 +46,13 @@ function! s:FilterOutput(lines, ...)
     endif
 
     for line in a:lines
-        if line != "No matching autocommands" && line != "Keine passenden Autokommandos"
-            call add(l:output, line)
+        if line == "No matching autocommands"
+                    \ || line == "Keine passenden Autokommandos"
+                    \ || line == "該当するautocommandは存在しません"
+            continue
         endif
+
+        call add(l:output, line)
     endfor
     if l:join_result
         return join(l:output, "\n")

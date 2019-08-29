@@ -48,6 +48,7 @@ function! s:FilterOutput(lines, ...)
     for line in a:lines
         if line == "No matching autocommands"
                     \ || line == "Keine passenden Autokommandos"
+                    \ || line == "該当するautocommandは存在しません"
             continue
         endif
 

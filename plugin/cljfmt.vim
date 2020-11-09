@@ -8,7 +8,7 @@ let fireplace#skip = 'synIDattr(synID(line("."),col("."),1),"name") =~? "comment
 function! s:RequireCljfmt()
     let l:cmd = "(require 'cljfmt.core)"
     try
-        silent! call fireplace#session_eval(l:cmd)
+        silent! call fireplace#clj().Eval(l:cmd)
         return 1
     catch /^Clojure: class java.io.FileNotFoundException*/
         echom "vim-cljfmt: Could not locate cljfmt/core__init.class or cljfmt/core.clj on classpath."
@@ -63,17 +63,13 @@ endfunction
 
 function! s:GetFormattedFile()
     let l:bufcontents = s:GetCurrentBufferContents()
-    redir => l:cljfmt_output
     try
-        silent! call fireplace#session_eval(s:GetReformatString(l:bufcontents))
+        let l:cljfmt_output = fireplace#clj().Eval(s:GetReformatString(l:bufcontents)).out
     catch /^Clojure:.*/
-        redir END
         throw "fmterr"
     catch
-      redir END
-      throw v:exception
+        throw v:exception
     endtry
-    redir END
     return s:FilterOutput(split(l:cljfmt_output, "\n"), 0)
 endfunction
 
@@ -147,9 +143,7 @@ function! s:CljfmtRange(bang, line1, line2, count, args) abort
       let escaped_contents = substitute(expr, '"', '\\"', 'g')
       let l:preformatted = s:GetReformatString(escaped_contents)
 
-      redir => l:formatted_content
-      silent! call fireplace#session_eval(l:preformatted)
-      redir END
+      let l:formatted_content = fireplace#clj().Eval(l:preformatted).out
 
       let content = s:FilterOutput(split(l:formatted_content, "\n"), 0)
       exe line1.','.line2.'delete _'

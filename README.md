@@ -20,6 +20,13 @@ Of course, manually formatting files is for people who aren't lazy. So, by defau
 let g:clj_fmt_autosave = 0
 ```
 
+If you need to pass custom configuration to cljfmt, you can do it like
+this:
+
+```vim
+let g:clj_fmt_config = '{:indentation? true, :remove-surrounding-whitespace? true, :remove-trailing-whitespace? true, :remove-consecutive-blank-lines? false, :insert-missing-whitespace? true, :align-associative? false, :indents {#"^\w" [[:inner 0]], #".*" [[:inner 0]]}}'
+```
+
 To format the code in current visual selection use the following command:
 
 ```vim

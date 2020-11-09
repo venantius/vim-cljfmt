@@ -5,6 +5,10 @@
 let g:clj_fmt_required = 0
 let fireplace#skip = 'synIDattr(synID(line("."),col("."),1),"name") =~? "comment\\|string\\|char\\|regexp"'
 
+if !exists("g:clj_fmt_config")
+    let g:clj_fmt_config = 'nil'
+endif
+
 function! s:RequireCljfmt()
     let l:cmd = "(require 'cljfmt.core)"
     try
@@ -34,7 +38,7 @@ function! s:GetCurrentBufferContents()
 endfunction
 
 function! s:GetReformatString(CurrentBufferContents)
-    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" nil))'
+    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" ' . g:clj_fmt_config . '))'
 endfunction
 
 function! s:FilterOutput(lines, ...)

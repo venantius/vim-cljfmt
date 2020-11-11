@@ -138,6 +138,7 @@ function! s:CljfmtRange(bang, line1, line2, count, args) abort
     if !line1 || !line2
       return ''
     endif
+  endif
     let expr = getline(line1)[col1-1 : -1] . "\n"
             \ . join(map(getline(line1+1, line2-1), 'v:val . "\n"'))
             \ . getline(line2)[0 : col2-1]

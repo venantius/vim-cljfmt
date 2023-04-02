@@ -10,7 +10,7 @@ if !exists("g:clj_fmt_config")
 endif
 
 function! s:RequireCljfmt()
-    let l:cmd = "(require 'cljfmt.core)"
+    let l:cmd = "(require 'cljfmt.core 'cljfmt.main)"
     try
         silent! call fireplace#clj().Eval(l:cmd)
         return 1
@@ -38,7 +38,7 @@ function! s:GetCurrentBufferContents()
 endfunction
 
 function! s:GetReformatString(CurrentBufferContents)
-    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" ' . g:clj_fmt_config . '))'
+    return '(print (cljfmt.core/reformat-string "' . a:CurrentBufferContents . '" (cljfmt.main/merge-options cljfmt.main/default-options ' . g:clj_fmt_config . ')))'
 endfunction
 
 function! s:FilterOutput(lines, ...)
